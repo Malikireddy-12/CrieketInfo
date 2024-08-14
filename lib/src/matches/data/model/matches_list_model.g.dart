@@ -17,10 +17,10 @@ class MatchesListModelAdapter extends TypeAdapter<MatchesListModel> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return MatchesListModel(
-      typeMatches: fields[0] as dynamic,
-      filters: fields[1] as dynamic,
-      appIndex: fields[2] as dynamic,
-      responseLastUpdated: fields[3] as dynamic,
+      typeMatches: (fields[0] as List?)?.cast<TypeMatches>(),
+      filters: fields[1] as Filters?,
+      appIndex: fields[2] as AppIndex?,
+      responseLastUpdated: fields[3] as String?,
     );
   }
 
@@ -60,8 +60,8 @@ class TypeMatchesAdapter extends TypeAdapter<TypeMatches> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return TypeMatches(
-      matchType: fields[0] as dynamic,
-      seriesMatches: fields[1] as dynamic,
+      matchType: fields[0] as String?,
+      seriesMatches: (fields[1] as List?)?.cast<SeriesMatches>(),
     );
   }
 
@@ -97,8 +97,8 @@ class SeriesMatchesAdapter extends TypeAdapter<SeriesMatches> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return SeriesMatches(
-      seriesAdWrapper: fields[0] as dynamic,
-      adDetail: fields[1] as dynamic,
+      seriesAdWrapper: fields[0] as SeriesAdWrapper?,
+      adDetail: fields[1] as AdDetail?,
     );
   }
 
@@ -134,9 +134,9 @@ class SeriesAdWrapperAdapter extends TypeAdapter<SeriesAdWrapper> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return SeriesAdWrapper(
-      seriesId: fields[0] as dynamic,
-      seriesName: fields[1] as dynamic,
-      matches: fields[2] as dynamic,
+      seriesId: fields[0] as int?,
+      seriesName: fields[1] as String?,
+      matches: (fields[2] as List?)?.cast<Matches>(),
     );
   }
 
@@ -174,8 +174,8 @@ class MatchesAdapter extends TypeAdapter<Matches> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return Matches(
-      matchInfo: fields[0] as dynamic,
-      matchScore: fields[1] as dynamic,
+      matchInfo: fields[0] as MatchInfo?,
+      matchScore: fields[1] as MatchScore?,
     );
   }
 
@@ -211,23 +211,23 @@ class MatchInfoAdapter extends TypeAdapter<MatchInfo> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return MatchInfo(
-      matchId: fields[0] as dynamic,
-      seriesId: fields[1] as dynamic,
-      seriesName: fields[2] as dynamic,
-      matchDesc: fields[3] as dynamic,
-      matchFormat: fields[4] as dynamic,
-      startDate: fields[5] as dynamic,
-      endDate: fields[6] as dynamic,
-      state: fields[7] as dynamic,
-      status: fields[8] as dynamic,
-      team1: fields[9] as dynamic,
-      team2: fields[10] as dynamic,
-      venueInfo: fields[12] as dynamic,
-      currBatTeamId: fields[13] as dynamic,
-      seriesStartDt: fields[14] as dynamic,
-      seriesEndDt: fields[15] as dynamic,
-      isTimeAnnounced: fields[16] as dynamic,
-      stateTitle: fields[17] as dynamic,
+      matchId: fields[0] as int?,
+      seriesId: fields[1] as int?,
+      seriesName: fields[2] as String?,
+      matchDesc: fields[3] as String?,
+      matchFormat: fields[4] as String?,
+      startDate: fields[5] as String?,
+      endDate: fields[6] as String?,
+      state: fields[7] as String?,
+      status: fields[8] as String?,
+      team1: fields[9] as Team1?,
+      team2: fields[10] as Team1?,
+      venueInfo: fields[12] as VenueInfo?,
+      currBatTeamId: fields[13] as int?,
+      seriesStartDt: fields[14] as String?,
+      seriesEndDt: fields[15] as String?,
+      isTimeAnnounced: fields[16] as bool?,
+      stateTitle: fields[17] as String?,
     );
   }
 
@@ -293,10 +293,10 @@ class Team1Adapter extends TypeAdapter<Team1> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return Team1(
-      teamId: fields[0] as dynamic,
-      teamName: fields[1] as dynamic,
-      teamSName: fields[2] as dynamic,
-      imageId: fields[3] as dynamic,
+      teamId: fields[0] as int?,
+      teamName: fields[1] as String?,
+      teamSName: fields[2] as String?,
+      imageId: fields[3] as int?,
     );
   }
 
@@ -336,10 +336,10 @@ class VenueInfoAdapter extends TypeAdapter<VenueInfo> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return VenueInfo(
-      id: fields[0] as dynamic,
-      ground: fields[1] as dynamic,
-      city: fields[2] as dynamic,
-      timezone: fields[3] as dynamic,
+      id: fields[0] as int?,
+      ground: fields[1] as String?,
+      city: fields[2] as String?,
+      timezone: fields[3] as String?,
     );
   }
 
@@ -379,8 +379,8 @@ class MatchScoreAdapter extends TypeAdapter<MatchScore> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return MatchScore(
-      team1Score: fields[0] as dynamic,
-      team2Score: fields[1] as dynamic,
+      team1Score: fields[0] as Team1Score?,
+      team2Score: fields[1] as Team1Score?,
     );
   }
 
@@ -416,7 +416,7 @@ class Team1ScoreAdapter extends TypeAdapter<Team1Score> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return Team1Score(
-      inngs1: fields[0] as dynamic,
+      inngs1: fields[0] as Inngs1?,
     );
   }
 
@@ -450,10 +450,10 @@ class Inngs1Adapter extends TypeAdapter<Inngs1> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return Inngs1(
-      inningsId: fields[0] as dynamic,
-      runs: fields[1] as dynamic,
-      wickets: fields[2] as dynamic,
-      overs: fields[3] as dynamic,
+      inningsId: fields[0] as int?,
+      runs: fields[1] as int?,
+      wickets: fields[2] as int?,
+      overs: fields[3] as double?,
     );
   }
 
@@ -493,9 +493,9 @@ class AdDetailAdapter extends TypeAdapter<AdDetail> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return AdDetail(
-      name: fields[0] as dynamic,
-      layout: fields[1] as dynamic,
-      position: fields[2] as dynamic,
+      name: fields[0] as String?,
+      layout: fields[1] as String?,
+      position: fields[2] as int?,
     );
   }
 
@@ -533,7 +533,7 @@ class FiltersAdapter extends TypeAdapter<Filters> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return Filters(
-      matchType: fields[0] as dynamic,
+      matchType: (fields[0] as List?)?.cast<String>(),
     );
   }
 
@@ -567,8 +567,8 @@ class AppIndexAdapter extends TypeAdapter<AppIndex> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return AppIndex(
-      seoTitle: fields[0] as dynamic,
-      webURL: fields[1] as dynamic,
+      seoTitle: fields[0] as String?,
+      webURL: fields[1] as String?,
     );
   }
 
