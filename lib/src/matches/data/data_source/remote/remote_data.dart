@@ -1,11 +1,11 @@
 import 'dart:convert';
 import 'package:cricket_info/core/errors/exceptions.dart';
-import 'package:cricket_info/core/utils/typedefs.dart';
 import 'package:cricket_info/src/matches/data/model/matches_list_model.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
 import 'package:internet_connection_checker/internet_connection_checker.dart';
+
+import '../local/local_data.dart';
 
 
 abstract class RemoteDataSource {
@@ -13,11 +13,10 @@ abstract class RemoteDataSource {
 }
 
 class RemoteDataSourceImpl implements RemoteDataSource {
-  // RemoteDataSourceImpl({required Box<MatchesListModel?> postsBox})
-  //     : _postsBox = postsBox;
-  RemoteDataSourceImpl(this._postsBox);
+
+  RemoteDataSourceImpl({required LocalDataSourceImpl local}):_local=local;
   final _client = http.Client();
-  final Box<MatchesListModel?> _postsBox;
+  final LocalDataSourceImpl _local;
   @override
   Future<MatchesListModel> matchesList(String email) async {
     final hasConnected = await InternetConnectionChecker().hasConnection;
@@ -38,7 +37,7 @@ class RemoteDataSourceImpl implements RemoteDataSource {
             statusCode: 'Unknown Error',
           );
         }
-        savePostsLocally(post: jsonDecode(response.body));
+       await _local.setMatchList(response.body.toString());
         return MatchesListModel.fromJson(jsonDecode(response.body));
       } on ServerException {
         rethrow;
@@ -50,19 +49,10 @@ class RemoteDataSourceImpl implements RemoteDataSource {
         );
       }
     } else {
-      final value = await fetchAllLocalPosts();
+      final value = await _local.getMatchList();
       return value;
     }
   }
 
-  Future<void> savePostsLocally({
-    required MatchesListModel post,
-  }) async {
-    await _postsBox.put("matchList", post);
-  }
 
-  Future<MatchesListModel> fetchAllLocalPosts() async {
-    var localPosts = _postsBox.get("matchList");
-    return MatchesListModel.fromJson(localPosts as DataMap);
-  }
 }

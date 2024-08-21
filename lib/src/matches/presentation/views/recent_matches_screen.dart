@@ -9,10 +9,11 @@ class Matches extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomScreenTypeLayout.builder(
-      mobile: (p0) => const MobileMatches(),
-      tablet: (p0) => const TabletMatches(),
-      desktop: (p0) => const DesktopMatches(),
-    );
+    return const MobileMatches();
+    // return CustomScreenTypeLayout.builder(
+    //   mobile: (p0) => const MobileMatches(),
+    //   tablet: (p0) => const TabletMatches(),
+    //   desktop: (p0) => const DesktopMatches(),
+    // );
   }
 }

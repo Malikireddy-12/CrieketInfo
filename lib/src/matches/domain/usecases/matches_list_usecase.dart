@@ -5,7 +5,7 @@ import 'package:cricket_info/src/matches/domain/repos/matches_list_repo.dart';
 import 'package:equatable/equatable.dart';
 
 class MatchesListUsecases
-    extends UsecaseWithParams<MatchesListModel, MatchesListParams> {
+    implements UsecaseWithParams<MatchesListModel, MatchesListParams> {
   const MatchesListUsecases(this._repo);
 
   final MatchesListRepo _repo;

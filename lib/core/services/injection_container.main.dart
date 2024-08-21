@@ -1,29 +1,28 @@
 part of 'injection_container.dart';
 
-final sl = GetIt.instance;
+GetIt sl = GetIt.instance;
 
 Future<void> init() async {
   await _initMatchesList();
 }
 
 Future<void> _initMatchesList() async {
-  //key
-  const postsKey = 'MatchesList';
-  //box
-  final postsBox = await Hive.openBox<MatchesListModel?>(postsKey);
-  // Feature --> OnBoarding
-  // Business Logic
-  sl..registerFactory(
-      () => MatchesListCubit(
-        matchesList: sl(),
-      ),
-    )
-    ..registerLazySingleton(() => MatchesListUsecases(sl()))
-    ..registerLazySingleton<MatchesListRepo>(() => MatchesListRepoImpl(sl()))
-    ..registerLazySingleton<RemoteDataSource>(
-      () => RemoteDataSourceImpl(sl()),
-    )
+  final prefs = await SharedPreferences.getInstance();
+  sl.registerFactory(
+    () => MatchesListCubit(
+      matchesList: sl(),
+    ),
+  );
+  sl.registerLazySingleton(() => MatchesListUsecases(sl()));
+  sl.registerLazySingleton<MatchesListRepo>(() => MatchesListRepoImpl(sl()));
+  sl.registerLazySingleton<RemoteDataSource>(
+    () => RemoteDataSourceImpl(local: sl()),
+  );
+  sl.registerLazySingleton<LocalDataSource>(
+    () => LocalDataSourceImpl(sl()),
+  );
 
-    //repos
-    ..registerLazySingleton(() => postsBox);
+  //repos
+  sl.registerLazySingleton(() => http.Client());
+  sl.registerLazySingleton(() => prefs);
 }

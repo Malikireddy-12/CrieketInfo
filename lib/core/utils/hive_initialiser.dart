@@ -5,11 +5,11 @@ import 'package:hive/hive.dart';
 
 Future<void> initialiseHive() async {
   //key
-  const postsKey = 'MatchesList';
-  //adapters
-  Hive.registerAdapter(MatchesListModelAdapter());
-  //box
-  final postsBox = await Hive.openBox<MatchesListModel?>(postsKey);
-  //repos
-  RemoteDataSourceImpl(postsBox);
+  // const postsKey = 'MatchesList';
+  // //adapters
+  // Hive.registerAdapter(MatchesListModelAdapter());
+  // //box
+  // final postsBox = await Hive.openBox<MatchesListModel?>(postsKey);
+  // //repos
+  // RemoteDataSourceImpl(postsBox);
 }
