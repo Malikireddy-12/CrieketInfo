@@ -12,15 +12,14 @@ abstract class LocalDataSource {
 }
 
 class LocalDataSourceImpl implements LocalDataSource {
-  LocalDataSourceImpl(this._prefs);
-
+  LocalDataSourceImpl({required SharedPreferences prefs}) : _prefs = prefs;
   final SharedPreferences _prefs;
 
   @override
   Future<void> setMatchList(String value) async {
     try {
       await _prefs.setString("matchList", value);
-    } catch(e) {
+    } catch (e) {
       throw CacheException(message: e.toString());
     }
   }

@@ -7,22 +7,33 @@ Future<void> init() async {
 }
 
 Future<void> _initMatchesList() async {
-  final prefs = await SharedPreferences.getInstance();
+  /// Bloc
   sl.registerFactory(
     () => MatchesListCubit(
       matchesList: sl(),
     ),
   );
-  sl.registerLazySingleton(() => MatchesListUsecases(sl()));
-  sl.registerLazySingleton<MatchesListRepo>(() => MatchesListRepoImpl(sl()));
-  sl.registerLazySingleton<RemoteDataSource>(
-    () => RemoteDataSourceImpl(local: sl()),
-  );
-  sl.registerLazySingleton<LocalDataSource>(
-    () => LocalDataSourceImpl(sl()),
+
+  /// Use cases
+  sl.registerLazySingleton(
+    () => MatchesListUsecases(sl()),
   );
 
-  //repos
+  /// Repository
+  sl.registerLazySingleton<MatchesListRepo>(
+    () => MatchesListRepoImpl(remoteDataSource: sl(), localDataSource: sl()),
+  );
+
+  /// Data sources
+  sl.registerLazySingleton<RemoteDataSource>(
+    () => RemoteDataSourceImpl(client: sl()),
+  );
+  sl.registerLazySingleton<LocalDataSource>(
+    () => LocalDataSourceImpl(prefs: sl()),
+  );
+
+  ///! External
+  final prefs = await SharedPreferences.getInstance();
   sl.registerLazySingleton(() => http.Client());
   sl.registerLazySingleton(() => prefs);
 }
