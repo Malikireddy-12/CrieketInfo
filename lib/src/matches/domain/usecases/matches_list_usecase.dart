@@ -6,7 +6,7 @@ import 'package:equatable/equatable.dart';
 
 class MatchesListUsecases
     implements UsecaseWithParams<MatchesListModel, MatchesListParams> {
-  const MatchesListUsecases(this._repo);
+  const MatchesListUsecases( MatchesListRepo repo) : _repo = repo;
 
   final MatchesListRepo _repo;
 

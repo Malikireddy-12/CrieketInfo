@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:cricket_info/core/services/injection_container.dart';
 
 import '../../../../../core/errors/exceptions.dart';
 import '../../model/matches_list_model.dart';
@@ -12,13 +12,14 @@ abstract class LocalDataSource {
 }
 
 class LocalDataSourceImpl implements LocalDataSource {
-  LocalDataSourceImpl({required SharedPreferences prefs}) : _prefs = prefs;
-  final SharedPreferences _prefs;
+  LocalDataSourceImpl();
+  // LocalDataSourceImpl({required SharedPreferences prefs}) : _prefs = prefs;
+
 
   @override
   Future<void> setMatchList(String value) async {
     try {
-      await _prefs.setString("matchList", value);
+      await prefs.setString("matchList", value);
     } catch (e) {
       throw CacheException(message: e.toString());
     }
@@ -27,7 +28,7 @@ class LocalDataSourceImpl implements LocalDataSource {
   @override
   Future<MatchesListModel> getMatchList() async {
     try {
-      final result = _prefs.getString("matchList");
+      final result = prefs.getString("matchList");
       return MatchesListModel.fromJson(jsonDecode(result!));
     } catch (e) {
       throw CacheException(message: e.toString());

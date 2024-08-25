@@ -9,12 +9,12 @@ class MatchesList extends Equatable {
   const MatchesList.empty()
       : this(
             typeMatches: const [],
-            filters: const Filters.empty(),
-            appIndex: const AppIndex.empty(),
+            filters: const FiltersEntity.empty(),
+            appIndex: const AppIndexEntity.empty(),
             responseLastUpdated: "");
-  final List<TypeMatches> typeMatches;
-  final Filters filters;
-  final AppIndex appIndex;
+  final List<TypeMatchesEntity> typeMatches;
+  final FiltersEntity filters;
+  final AppIndexEntity appIndex;
   final String responseLastUpdated;
 
   @override
@@ -22,62 +22,62 @@ class MatchesList extends Equatable {
       [typeMatches, filters, appIndex, responseLastUpdated];
 }
 
-class TypeMatches extends Equatable {
+class TypeMatchesEntity extends Equatable {
   final String? matchType;
-  final List<SeriesMatches>? seriesMatches;
+  final List<SeriesMatchesEntity>? seriesMatches;
 
-  const TypeMatches({this.matchType, this.seriesMatches});
-  const TypeMatches.empty() : this(matchType: "", seriesMatches: const []);
+  const TypeMatchesEntity({this.matchType, this.seriesMatches});
+  const TypeMatchesEntity.empty() : this(matchType: "", seriesMatches: const []);
 
   @override
   List<Object?> get props => [matchType, seriesMatches];
 }
 
-class SeriesMatches extends Equatable {
-  final SeriesAdWrapper? seriesAdWrapper;
-  final AdDetail? adDetail;
+class SeriesMatchesEntity extends Equatable {
+  final SeriesAdWrapperEntity? seriesAdWrapper;
+  final AdDetailEntity? adDetail;
 
-  const SeriesMatches({this.seriesAdWrapper, this.adDetail});
-  const SeriesMatches.empty()
+  const SeriesMatchesEntity({this.seriesAdWrapper, this.adDetail});
+  const SeriesMatchesEntity.empty()
       : this(
-          seriesAdWrapper: const SeriesAdWrapper.empty(),
-          adDetail: const AdDetail.empty(),
+          seriesAdWrapper: const SeriesAdWrapperEntity.empty(),
+          adDetail: const AdDetailEntity.empty(),
         );
 
   @override
   List<Object?> get props => [seriesAdWrapper, adDetail];
 }
 
-class SeriesAdWrapper extends Equatable {
+class SeriesAdWrapperEntity extends Equatable {
   final int? seriesId;
   final String? seriesName;
-  final List<Matches>? matches;
+  final List<MatchesEntity>? matches;
 
-  const SeriesAdWrapper({this.seriesId, this.seriesName, this.matches});
+  const SeriesAdWrapperEntity({this.seriesId, this.seriesName, this.matches});
 
-  const SeriesAdWrapper.empty()
+  const SeriesAdWrapperEntity.empty()
       : this(seriesId: 0, seriesName: "", matches: const []);
 
   @override
   List<Object?> get props => [seriesId, seriesName, matches];
 }
 
-class Matches extends Equatable {
-  final MatchInfo? matchInfo;
-  final MatchScore? matchScore;
+class MatchesEntity extends Equatable {
+  final MatchInfoEntity? matchInfo;
+  final MatchScoreEntity? matchScore;
 
-  const Matches({this.matchInfo, this.matchScore});
-  const Matches.empty()
+  const MatchesEntity({this.matchInfo, this.matchScore});
+  const MatchesEntity.empty()
       : this(
-          matchInfo: const MatchInfo.empty(),
-          matchScore: const MatchScore.empty(),
+          matchInfo: const MatchInfoEntity.empty(),
+          matchScore: const MatchScoreEntity.empty(),
         );
 
   @override
   List<Object?> get props => [matchInfo, matchScore];
 }
 
-class MatchInfo extends Equatable {
+class MatchInfoEntity extends Equatable {
   final int? matchId;
   final int? seriesId;
   final String? seriesName;
@@ -87,16 +87,16 @@ class MatchInfo extends Equatable {
   final String? endDate;
   final String? state;
   final String? status;
-  final Team1? team1;
-  final Team1? team2;
-  final VenueInfo? venueInfo;
+  final Team1Entity? team1;
+  final Team1Entity? team2;
+  final VenueInfoEntity? venueInfo;
   final int? currBatTeamId;
   final String? seriesStartDt;
   final String? seriesEndDt;
   final bool? isTimeAnnounced;
   final String? stateTitle;
 
-  const MatchInfo(
+  const MatchInfoEntity(
       {this.matchId,
       this.seriesId,
       this.seriesName,
@@ -114,7 +114,7 @@ class MatchInfo extends Equatable {
       this.seriesEndDt,
       this.isTimeAnnounced,
       this.stateTitle});
-  const MatchInfo.empty()
+  const MatchInfoEntity.empty()
       : this(
             matchId: 0,
             seriesId: 0,
@@ -125,9 +125,9 @@ class MatchInfo extends Equatable {
             endDate: "",
             state: "",
             status: "",
-            team1: const Team1.empty(),
-            team2: const Team1.empty(),
-            venueInfo: const VenueInfo.empty(),
+            team1: const Team1Entity.empty(),
+            team2: const Team1Entity.empty(),
+            venueInfo: const VenueInfoEntity.empty(),
             currBatTeamId: 0,
             seriesStartDt: "",
             seriesEndDt: "",
@@ -156,96 +156,96 @@ class MatchInfo extends Equatable {
       ];
 }
 
-class Team1 extends Equatable {
+class Team1Entity extends Equatable {
   final int? teamId;
   final String? teamName;
   final String? teamSName;
   final int? imageId;
 
-  const Team1({this.teamId, this.teamName, this.teamSName, this.imageId});
-  const Team1.empty()
+  const Team1Entity({this.teamId, this.teamName, this.teamSName, this.imageId});
+  const Team1Entity.empty()
       : this(teamId: 0, teamName: "", teamSName: "", imageId: 0);
 
   @override
   List<Object?> get props => [teamId, teamName, teamSName, imageId];
 }
 
-class VenueInfo extends Equatable {
+class VenueInfoEntity extends Equatable {
   final int? id;
   final String? ground;
   final String? city;
   final String? timezone;
 
-  const VenueInfo({this.id, this.ground, this.city, this.timezone});
-  const VenueInfo.empty() : this(id: 0, ground: "", city: "", timezone: "");
+  const VenueInfoEntity({this.id, this.ground, this.city, this.timezone});
+  const VenueInfoEntity.empty() : this(id: 0, ground: "", city: "", timezone: "");
   @override
   List<Object?> get props => [id, ground, city, timezone];
 }
 
-class MatchScore extends Equatable {
-  final Team1Score? team1Score;
-  final Team1Score? team2Score;
+class MatchScoreEntity extends Equatable {
+  final Team1ScoreEntity? team1Score;
+  final Team1ScoreEntity? team2Score;
 
-  const MatchScore({this.team1Score, this.team2Score});
-  const MatchScore.empty()
+  const MatchScoreEntity({this.team1Score, this.team2Score});
+  const MatchScoreEntity.empty()
       : this(
-            team1Score: const Team1Score.empty(),
-            team2Score: const Team1Score.empty());
+            team1Score: const Team1ScoreEntity.empty(),
+            team2Score: const Team1ScoreEntity.empty());
 
   @override
   List<Object?> get props => [team1Score, team2Score];
 }
 
-class Team1Score extends Equatable {
-  final Inngs1? inngs1;
+class Team1ScoreEntity extends Equatable {
+  final Inngs1Entity? inngs1;
 
-  const Team1Score({this.inngs1});
-  const Team1Score.empty() : this(inngs1: const Inngs1.empty());
+  const Team1ScoreEntity({this.inngs1});
+  const Team1ScoreEntity.empty() : this(inngs1: const Inngs1Entity.empty());
 
   @override
   List<Object?> get props => [inngs1];
 }
 
-class Inngs1 extends Equatable {
+class Inngs1Entity extends Equatable {
   final int? inningsId;
   final int? runs;
   final int? wickets;
   final double? overs;
 
-  const Inngs1({this.inningsId, this.runs, this.wickets, this.overs});
-  const Inngs1.empty() : this(inningsId: 0, runs: 0, wickets: 0, overs: 0);
+  const Inngs1Entity({this.inningsId, this.runs, this.wickets, this.overs});
+  const Inngs1Entity.empty() : this(inningsId: 0, runs: 0, wickets: 0, overs: 0);
 
   @override
   List<Object?> get props => [inningsId, runs, wickets, overs];
 }
 
-class AdDetail extends Equatable {
+class AdDetailEntity extends Equatable {
   final String? name;
   final String? layout;
   final int? position;
 
-  const AdDetail({this.name, this.layout, this.position});
-  const AdDetail.empty() : this(name: "", layout: "", position: 0);
+  const AdDetailEntity({this.name, this.layout, this.position});
+  const AdDetailEntity.empty() : this(name: "", layout: "", position: 0);
 
   @override
   List<Object?> get props => [name, layout, position];
 }
 
-class Filters extends Equatable {
+class FiltersEntity extends Equatable {
   final List<String> matchType;
-  const Filters({required this.matchType});
-  const Filters.empty() : this(matchType: const []);
+  const FiltersEntity({required this.matchType});
+  const FiltersEntity.empty() : this(matchType: const []);
 
   @override
   List<Object?> get props => [matchType];
 }
 
-class AppIndex extends Equatable {
+class AppIndexEntity extends Equatable {
   final String? seoTitle;
   final String? webURL;
 
-  const AppIndex({this.seoTitle, this.webURL});
-  const AppIndex.empty() : this(seoTitle: "", webURL: "");
+  const AppIndexEntity({this.seoTitle, this.webURL});
+  const AppIndexEntity.empty() : this(seoTitle: "", webURL: "");
 
   @override
   List<Object?> get props => [seoTitle, webURL];

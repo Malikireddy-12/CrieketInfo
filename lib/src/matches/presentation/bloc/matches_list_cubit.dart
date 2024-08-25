@@ -6,7 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 part 'matches_list_state.dart';
 
 class MatchesListCubit extends Cubit<MatchesListState> {
-  MatchesListCubit({required MatchesListUsecases matchesList})
+  MatchesListCubit(MatchesListUsecases matchesList)
       : _matchesList = matchesList,
         super(const MatchesListInitial());
   final MatchesListUsecases _matchesList;
@@ -20,7 +20,7 @@ class MatchesListCubit extends Cubit<MatchesListState> {
         emit(MatchesListError(message: failure.errorMessage));
       },
           (response) async {
-        emit(MatchesListLoaded(response:entities.MatchesList(typeMatches: response.typeMatches!.map((e)=>entities.TypeMatches(matchType: e.matchType,seriesMatches: e.seriesMatches!.map((v)=> entities.SeriesMatches(seriesAdWrapper: entities.SeriesAdWrapper(seriesId: v.seriesAdWrapper!.seriesId,seriesName: v.seriesAdWrapper!.seriesName,matches: v.seriesAdWrapper!.matches!.map((r)=>entities.Matches(matchScore:entities.MatchScore(team2Score: entities.Team1Score(inngs1: entities.Inngs1(inningsId: r.matchScore!.team1Score!.inngs1!.inningsId,runs: r.matchScore!.team1Score!.inngs1!.runs,wickets: r.matchScore!.team1Score!.inngs1!.wickets,overs: r.matchScore!.team1Score!.inngs1!.overs)),team1Score: entities.Team1Score(inngs1: entities.Inngs1(inningsId: r.matchScore!.team1Score!.inngs1!.inningsId,runs: r.matchScore!.team1Score!.inngs1!.runs,wickets: r.matchScore!.team1Score!.inngs1!.wickets,overs: r.matchScore!.team1Score!.inngs1!.overs))),matchInfo:entities.MatchInfo( matchId: 0,
+        emit(MatchesListLoaded(response:entities.MatchesList(typeMatches: response.typeMatches.map((e)=>entities.TypeMatchesEntity(matchType: e.matchType,seriesMatches: e.seriesMatches!.map((v)=> entities.SeriesMatchesEntity(seriesAdWrapper: entities.SeriesAdWrapperEntity(seriesId: v.seriesAdWrapper!.seriesId,seriesName: v.seriesAdWrapper!.seriesName,matches: v.seriesAdWrapper!.matches!.map((r)=>entities.MatchesEntity(matchScore:entities.MatchScoreEntity(team2Score: entities.Team1ScoreEntity(inngs1: entities.Inngs1Entity(inningsId: r.matchScore!.team1Score!.inngs1!.inningsId,runs: r.matchScore!.team1Score!.inngs1!.runs,wickets: r.matchScore!.team1Score!.inngs1!.wickets,overs: r.matchScore!.team1Score!.inngs1!.overs)),team1Score: entities.Team1ScoreEntity(inngs1: entities.Inngs1Entity(inningsId: r.matchScore!.team1Score!.inngs1!.inningsId,runs: r.matchScore!.team1Score!.inngs1!.runs,wickets: r.matchScore!.team1Score!.inngs1!.wickets,overs: r.matchScore!.team1Score!.inngs1!.overs))),matchInfo:entities.MatchInfoEntity( matchId: 0,
             seriesId: r.matchInfo!.seriesId,
             seriesName: r.matchInfo!.seriesName,
             matchDesc: r.matchInfo!.matchDesc,
@@ -29,14 +29,14 @@ class MatchesListCubit extends Cubit<MatchesListState> {
             endDate: r.matchInfo!.endDate,
             state: r.matchInfo!.state,
             status: r.matchInfo!.status,
-            team1:  entities.Team1(teamId: r.matchInfo!.team1!.teamId,teamName: r.matchInfo!.team1!.teamName,teamSName: r.matchInfo!.team1!.teamSName,imageId:r.matchInfo!.team1!.imageId ),
-            team2: entities.Team1(teamId: r.matchInfo!.team2!.teamId,teamName: r.matchInfo!.team2!.teamName,teamSName: r.matchInfo!.team2!.teamSName,imageId:r.matchInfo!.team2!.imageId ),
-            venueInfo: entities.VenueInfo(id: r.matchInfo!.venueInfo!.id,ground: r.matchInfo!.venueInfo!.ground,city: r.matchInfo!.venueInfo!.city,timezone:r.matchInfo!.venueInfo!.timezone ),
+            team1:  entities.Team1Entity(teamId: r.matchInfo!.team1!.teamId,teamName: r.matchInfo!.team1!.teamName,teamSName: r.matchInfo!.team1!.teamSName,imageId:r.matchInfo!.team1!.imageId ),
+            team2: entities.Team1Entity(teamId: r.matchInfo!.team2!.teamId,teamName: r.matchInfo!.team2!.teamName,teamSName: r.matchInfo!.team2!.teamSName,imageId:r.matchInfo!.team2!.imageId ),
+            venueInfo: entities.VenueInfoEntity(id: r.matchInfo!.venueInfo!.id,ground: r.matchInfo!.venueInfo!.ground,city: r.matchInfo!.venueInfo!.city,timezone:r.matchInfo!.venueInfo!.timezone ),
             currBatTeamId: r.matchInfo!.currBatTeamId,
             seriesStartDt: r.matchInfo!.seriesStartDt,
             seriesEndDt: r.matchInfo!.seriesEndDt,
             isTimeAnnounced: r.matchInfo!.isTimeAnnounced,
-            stateTitle: r.matchInfo!.stateTitle) )).toList() ),adDetail:entities.AdDetail(name: v.adDetail!.name,layout: v.adDetail!.layout,position: v.adDetail!.position) )).toList())).toList(),filters: entities.Filters(matchType:response.filters!.matchType!.map((e)=>e).toList()),appIndex:entities.AppIndex(seoTitle: response.appIndex!.seoTitle,webURL: response.appIndex!.webURL) ,responseLastUpdated:response.responseLastUpdated! ) ));
+            stateTitle: r.matchInfo!.stateTitle) )).toList() ),adDetail:entities.AdDetailEntity(name: v.adDetail!.name,layout: v.adDetail!.layout,position: v.adDetail!.position) )).toList())).toList(),filters: entities.FiltersEntity(matchType:response.filters.matchType.map((e)=>e).toList()),appIndex:entities.AppIndexEntity(seoTitle: response.appIndex.seoTitle,webURL: response.appIndex.webURL) ,responseLastUpdated:response.responseLastUpdated ) ));
       },
     );
   }

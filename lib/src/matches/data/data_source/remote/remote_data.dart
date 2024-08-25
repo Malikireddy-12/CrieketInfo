@@ -3,17 +3,14 @@ import 'package:cricket_info/core/errors/exceptions.dart';
 import 'package:cricket_info/src/matches/data/model/matches_list_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
-import 'package:internet_connection_checker/internet_connection_checker.dart';
-
-import '../local/local_data.dart';
 
 abstract class RemoteDataSource {
   Future<void> matchesList(String email);
 }
 
 class RemoteDataSourceImpl implements RemoteDataSource {
-  RemoteDataSourceImpl({required http.Client client}) : _client = client;
-  final http.Client _client;
+  RemoteDataSourceImpl();
+  // RemoteDataSourceImpl({required http.Client client}) : _client = client;
   @override
   Future<MatchesListModel> matchesList(String email) async {
     Map<String, String> headers = {
@@ -21,7 +18,7 @@ class RemoteDataSourceImpl implements RemoteDataSource {
       "x-rapidapi-host": "cricbuzz-cricket.p.rapidapi.com"
     };
     try {
-      final response = await _client.get(
+      final response = await  http.get(
           Uri.parse(
               'https://cricbuzz-cricket.p.rapidapi.com/matches/v1/recent'),
           headers: headers);

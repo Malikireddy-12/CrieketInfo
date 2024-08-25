@@ -1,323 +1,327 @@
 import 'package:cricket_info/core/utils/typedefs.dart';
-import 'package:cricket_info/src/matches/data/model/fields/matches_hive_types.dart';
-import 'package:cricket_info/src/matches/data/model/fields/matches_list_main_fields.dart';
-import 'package:hive/hive.dart';
 
-part 'matches_list_model.g.dart';
+import '../../domain/entities/matches_list_entities.dart';
 
-@HiveType(typeId: MatchesHiveTypes.matchesList)
-class MatchesListModel {
-  @HiveField(MatchesListMainFields.typeMatches)
-  final List<TypeMatches>? typeMatches;
-  @HiveField(MatchesListMainFields.filters)
-  final Filters? filters;
-  @HiveField(MatchesListMainFields.appIndex)
-  final AppIndex? appIndex;
-  @HiveField(MatchesListMainFields.responseLastUpdated)
-  final String? responseLastUpdated;
+class MatchesListModel extends MatchesList {
+  // final List<TypeMatches>? typeMatches;
+  // final Filters? filters;
+  // final AppIndex? appIndex;
+  // final String? responseLastUpdated;
+  const MatchesListModel({
+    required List<TypeMatches> typeMatches,
+    required Filters filters,
+    required AppIndex appIndex,
+    required String responseLastUpdated,
+  }) : super(
+            typeMatches: typeMatches,
+            filters: filters,
+            appIndex: appIndex,
+            responseLastUpdated: responseLastUpdated);
 
-  MatchesListModel({
-    this.typeMatches,
-    this.filters,
-    this.appIndex,
-    this.responseLastUpdated,
-  });
-
-  MatchesListModel.fromJson(DataMap json)
-      : typeMatches = json['typeMatches'] != null
-            ? List<TypeMatches>.from(json['typeMatches']
-                .where((e) => e != null)
-                .map((e) => TypeMatches.fromJson(e)))
-            : [],
-        filters =
-            json['filters'] != null ? Filters.fromJson(json['filters']) : null,
-        appIndex = json['appIndex'] != null
-            ? AppIndex.fromJson(json['appIndex'])
-            : null,
-        responseLastUpdated = json['responseLastUpdated'];
+  factory MatchesListModel.fromJson(DataMap json) {
+    return MatchesListModel(
+      typeMatches: json['typeMatches'] != null
+          ? List<TypeMatches>.from(json['typeMatches']
+              .where((e) => e != null)
+              .map((e) => TypeMatches.fromJson(e)))
+          : [],
+      filters: Filters.fromJson(json['filters']),
+      appIndex: AppIndex.fromJson(json['appIndex']),
+      responseLastUpdated: json['responseLastUpdated'],
+    );
+  }
 }
 
-@HiveType(typeId: MatchesHiveTypes.typeMatches)
-class TypeMatches {
-  @HiveField(TypeMatchesFields.matchType)
-  final String? matchType;
-  @HiveField(TypeMatchesFields.seriesMatches)
-  final List<SeriesMatches>? seriesMatches;
+class TypeMatches extends TypeMatchesEntity {
+  // final String? matchType;
+  // final List<SeriesMatches>? seriesMatches;
+  const TypeMatches(
+      {required String? matchType, required List<SeriesMatches>? seriesMatches})
+      : super(matchType: matchType, seriesMatches: seriesMatches);
 
-  TypeMatches({
-    this.matchType,
-    this.seriesMatches,
-  });
-
-  TypeMatches.fromJson(DataMap json)
-      : matchType = json['matchType'],
-        seriesMatches = json['seriesMatches'] != null
+  factory TypeMatches.fromJson(DataMap json) {
+    return TypeMatches(
+        matchType: json['matchType'],
+        seriesMatches: json['seriesMatches'] != null
             ? List<SeriesMatches>.from(
                 json['seriesMatches'].map((e) => SeriesMatches.fromJson(e)))
-            : [];
+            : []);
+  }
 }
 
-@HiveType(typeId: MatchesHiveTypes.seriesMatches)
-class SeriesMatches {
-  @HiveField(SeriesMatchesFields.seriesAdWrapper)
-  final SeriesAdWrapper? seriesAdWrapper;
-  @HiveField(SeriesMatchesFields.adDetail)
-  final AdDetail? adDetail;
+class SeriesMatches extends SeriesMatchesEntity {
+  // final SeriesAdWrapper? seriesAdWrapper;
+  // final AdDetail? adDetail;
 
-  SeriesMatches({this.seriesAdWrapper, this.adDetail});
+  const SeriesMatches(
+      {required SeriesAdWrapper? seriesAdWrapper, required AdDetail? adDetail})
+      : super(seriesAdWrapper: seriesAdWrapper, adDetail: adDetail);
 
-  SeriesMatches.fromJson(DataMap json)
-      : seriesAdWrapper = json['seriesAdWrapper'] != null
+  factory SeriesMatches.fromJson(DataMap json) {
+    return SeriesMatches(
+        seriesAdWrapper: json['seriesAdWrapper'] != null
             ? SeriesAdWrapper.fromJson(json['seriesAdWrapper'])
             : null,
-        adDetail = json['adDetail'] != null
+        adDetail: json['adDetail'] != null
             ? AdDetail.fromJson(json['adDetail'])
-            : null;
+            : null);
+  }
 }
 
-@HiveType(typeId: MatchesHiveTypes.seriesAdWrapper)
-class SeriesAdWrapper {
-  @HiveField(SeriesAdWrapperFields.seriesId)
-  final int? seriesId;
-  @HiveField(SeriesAdWrapperFields.seriesName)
-  final String? seriesName;
-  @HiveField(SeriesAdWrapperFields.matches)
-  final List<Matches>? matches;
+class SeriesAdWrapper extends SeriesAdWrapperEntity {
+  // final int? seriesId;
+  // final String? seriesName;
+  // final List<Matches>? matches;
 
-  SeriesAdWrapper({this.seriesId, this.seriesName, this.matches});
+  const SeriesAdWrapper(
+      {required int? seriesId,
+      required String? seriesName,
+      required List<Matches>? matches})
+      : super(seriesId: seriesId, seriesName: seriesName, matches: matches);
 
-  SeriesAdWrapper.fromJson(DataMap json)
-      : seriesId = json['seriesId'] ?? 0,
-        seriesName = json['seriesName'] ?? "",
-        matches = json['matches'] != null
+  factory SeriesAdWrapper.fromJson(DataMap json) {
+    return SeriesAdWrapper(
+        seriesId: json['seriesId'] ?? 0,
+        seriesName: json['seriesName'] ?? "",
+        matches: json['matches'] != null
             ? List<Matches>.from(
                 json['matches'].map((e) => Matches.fromJson(e)))
-            : [];
+            : []);
+  }
 }
 
-@HiveType(typeId: MatchesHiveTypes.matches)
-class Matches {
-  @HiveField(MatchesFields.matchInfo)
-  final MatchInfo? matchInfo;
-  @HiveField(MatchesFields.matchScore)
-  final MatchScore? matchScore;
+class Matches extends MatchesEntity {
+  // final MatchInfo? matchInfo;
+  // final MatchScore? matchScore;
 
-  Matches({this.matchInfo, this.matchScore});
+  const Matches(
+      {required MatchInfo? matchInfo, required MatchScore? matchScore})
+      : super(matchInfo: matchInfo, matchScore: matchScore);
 
-  Matches.fromJson(DataMap json)
-      : matchInfo = json['matchInfo'] != null
+  factory Matches.fromJson(DataMap json) {
+    return Matches(
+        matchInfo: json['matchInfo'] != null
             ? MatchInfo.fromJson(json['matchInfo'])
             : null,
-        matchScore = json['matchScore'] != null
+        matchScore: json['matchScore'] != null
             ? MatchScore.fromJson(json['matchScore'])
-            : null;
+            : null);
+  }
 }
 
-@HiveType(typeId: MatchesHiveTypes.matchInfo)
-class MatchInfo {
-  @HiveField(MatchInfoFields.matchId)
-  final int? matchId;
-  @HiveField(MatchInfoFields.seriesId)
-  final int? seriesId;
-  @HiveField(MatchInfoFields.seriesName)
-  final String? seriesName;
-  @HiveField(MatchInfoFields.matchDesc)
-  final String? matchDesc;
-  @HiveField(MatchInfoFields.matchFormat)
-  final String? matchFormat;
-  @HiveField(MatchInfoFields.startDate)
-  final String? startDate;
-  @HiveField(MatchInfoFields.endDate)
-  final String? endDate;
-  @HiveField(MatchInfoFields.state)
-  final String? state;
-  @HiveField(MatchInfoFields.status)
-  final String? status;
-  @HiveField(MatchInfoFields.team1)
-  final Team1? team1;
-  @HiveField(MatchInfoFields.team2)
-  final Team1? team2;
-  @HiveField(MatchInfoFields.venueInfo)
-  final VenueInfo? venueInfo;
-  @HiveField(MatchInfoFields.currBatTeamId)
-  final int? currBatTeamId;
-  @HiveField(MatchInfoFields.seriesStartDt)
-  final String? seriesStartDt;
-  @HiveField(MatchInfoFields.seriesEndDt)
-  final String? seriesEndDt;
-  @HiveField(MatchInfoFields.isTimeAnnounced)
-  final bool? isTimeAnnounced;
-  @HiveField(MatchInfoFields.stateTitle)
-  final String? stateTitle;
+class MatchInfo extends MatchInfoEntity {
+  // final int? matchId;
+  // final int? seriesId;
+  // final String? seriesName;
+  // final String? matchDesc;
+  // final String? matchFormat;
+  // final String? startDate;
+  // final String? endDate;
+  // final String? state;
+  // final String? status;
+  // final Team1? team1;
+  // final Team1? team2;
+  // final VenueInfo? venueInfo;
+  // final int? currBatTeamId;
+  // final String? seriesStartDt;
+  // final String? seriesEndDt;
+  // final bool? isTimeAnnounced;
+  // final String? stateTitle;
 
-  MatchInfo(
-      {this.matchId,
-      this.seriesId,
-      this.seriesName,
-      this.matchDesc,
-      this.matchFormat,
-      this.startDate,
-      this.endDate,
-      this.state,
-      this.status,
-      this.team1,
-      this.team2,
-      this.venueInfo,
-      this.currBatTeamId,
-      this.seriesStartDt,
-      this.seriesEndDt,
-      this.isTimeAnnounced,
-      this.stateTitle});
+  const MatchInfo({
+    required int? matchId,
+    required int? seriesId,
+    required String? seriesName,
+    required String? matchDesc,
+    required String? matchFormat,
+    required String? startDate,
+    required String? endDate,
+    required String? state,
+    required String? status,
+    required Team1? team1,
+    required Team1? team2,
+    required VenueInfo? venueInfo,
+    required int? currBatTeamId,
+    required String? seriesStartDt,
+    required String? seriesEndDt,
+    required bool? isTimeAnnounced,
+    required String? stateTitle,
+  }) : super(
+            matchId: matchId,
+            seriesId: seriesId,
+            seriesName: seriesName,
+            matchDesc: matchDesc,
+            matchFormat: matchFormat,
+            startDate: startDate,
+            endDate: endDate,
+            state: state,
+            status: status,
+            team1: team1,
+            team2: team2,
+            venueInfo: venueInfo,
+            currBatTeamId: currBatTeamId,
+            seriesStartDt: seriesStartDt,
+            seriesEndDt: seriesEndDt,
+            isTimeAnnounced: isTimeAnnounced,
+            stateTitle: stateTitle);
 
-  MatchInfo.fromJson(DataMap json)
-      : matchId = json['matchId'] ?? 0,
-        seriesId = json['seriesId'] ?? 0,
-        seriesName = json['seriesName'] ?? '',
-        matchDesc = json['matchDesc'] ?? '',
-        matchFormat = json['matchFormat'] ?? '',
-        startDate = json['startDate'] ?? '',
-        endDate = json['endDate'] ?? '',
-        state = json['state'] ?? '',
-        status = json['status'] ?? '',
-        team1 = json['team1'] != null ? Team1.fromJson(json['team1']) : null,
-        team2 = json['team2'] != null ? Team1.fromJson(json['team2']) : null,
-        venueInfo = json['venueInfo'] != null
+  factory MatchInfo.fromJson(DataMap json) {
+    return MatchInfo(
+        matchId: json['matchId'] ?? 0,
+        seriesId: json['seriesId'] ?? 0,
+        seriesName: json['seriesName'] ?? '',
+        matchDesc: json['matchDesc'] ?? '',
+        matchFormat: json['matchFormat'] ?? '',
+        startDate: json['startDate'] ?? '',
+        endDate: json['endDate'] ?? '',
+        state: json['state'] ?? '',
+        status: json['status'] ?? '',
+        team1: json['team1'] != null ? Team1.fromJson(json['team1']) : null,
+        team2: json['team2'] != null ? Team1.fromJson(json['team2']) : null,
+        venueInfo: json['venueInfo'] != null
             ? VenueInfo.fromJson(json['venueInfo'])
             : null,
-        currBatTeamId = json['currBatTeamId'] ?? '',
-        seriesStartDt = json['seriesStartDt'] ?? '',
-        seriesEndDt = json['seriesEndDt'] ?? '',
-        isTimeAnnounced = json['isTimeAnnounced'] ?? '',
-        stateTitle = json['stateTitle'] ?? '';
+        currBatTeamId: json['currBatTeamId'] ?? '',
+        seriesStartDt: json['seriesStartDt'] ?? '',
+        seriesEndDt: json['seriesEndDt'] ?? '',
+        isTimeAnnounced: json['isTimeAnnounced'] ?? '',
+        stateTitle: json['stateTitle'] ?? '');
+  }
 }
 
-@HiveType(typeId: MatchesHiveTypes.team1)
-class Team1 {
-  @HiveField(Team1Fields.teamId)
-  final int? teamId;
-  @HiveField(Team1Fields.teamName)
-  final String? teamName;
-  @HiveField(Team1Fields.teamSName)
-  final String? teamSName;
-  @HiveField(Team1Fields.imageId)
-  final int? imageId;
+class Team1 extends Team1Entity {
+  // final int? teamId;
+  // final String? teamName;
+  // final String? teamSName;
+  // final int? imageId;
 
-  Team1({this.teamId, this.teamName, this.teamSName, this.imageId});
+  const Team1(
+      {required int? teamId,
+      required String? teamName,
+      required String? teamSName,
+      required int? imageId})
+      : super(
+            teamId: teamId,
+            teamSName: teamSName,
+            teamName: teamName,
+            imageId: imageId);
 
-  Team1.fromJson(DataMap json)
-      : teamId = json['teamId'] ?? 0,
-        teamName = json['teamName'] ?? "",
-        teamSName = json['teamSName'] ?? "",
-        imageId = json['imageId'] ?? 0;
+  factory Team1.fromJson(DataMap json) {
+    return Team1(
+        teamId: json['teamId'] ?? 0,
+        teamName: json['teamName'] ?? "",
+        teamSName: json['teamSName'] ?? "",
+        imageId: json['imageId'] ?? 0);
+  }
 }
 
-@HiveType(typeId: MatchesHiveTypes.venueInfo)
-class VenueInfo {
-  @HiveField(VenueInfoFields.id)
-  final int? id;
-  @HiveField(VenueInfoFields.ground)
-  final String? ground;
-  @HiveField(VenueInfoFields.city)
-  final String? city;
-  @HiveField(VenueInfoFields.timezone)
-  final String? timezone;
+class VenueInfo extends VenueInfoEntity {
+  // final int? id;
+  // final String? ground;
+  // final String? city;
+  // final String? timezone;
 
-  VenueInfo({this.id, this.ground, this.city, this.timezone});
+  const VenueInfo(
+      {required int? id,
+      required String? ground,
+      required String? city,
+      required String? timezone})
+      : super(id: id, ground: ground, city: city, timezone: timezone);
 
-  VenueInfo.fromJson(DataMap json)
-      : id = json['id'] ?? 0,
-        ground = json['ground'] ?? "",
-        city = json['city'] ?? "",
-        timezone = json['timezone'];
+  factory VenueInfo.fromJson(DataMap json) {
+    return VenueInfo(
+      id: json['id'] ?? 0,
+      ground: json['ground'] ?? "",
+      city: json['city'] ?? "",
+      timezone: json['timezone'],
+    );
+  }
 }
 
-@HiveType(typeId: MatchesHiveTypes.matchScore)
-class MatchScore {
-  @HiveField(MatchScoreFields.team1Score)
-  final Team1Score? team1Score;
-  @HiveField(MatchScoreFields.team2Score)
-  final Team1Score? team2Score;
+class MatchScore extends MatchScoreEntity {
+  // final Team1Score? team1Score;
+  // final Team1Score? team2Score;
 
-  MatchScore({this.team1Score, this.team2Score});
+  const MatchScore(
+      {required Team1Score? team1Score, required Team1Score? team2Score})
+      : super(team1Score: team1Score, team2Score: team2Score);
 
-  MatchScore.fromJson(DataMap json)
-      : team1Score = json['team1Score'] != null
+  factory MatchScore.fromJson(DataMap json) {
+    return MatchScore(
+        team1Score: json['team1Score'] != null
             ? Team1Score.fromJson(json['team1Score'])
             : null,
-        team2Score = json['team2Score'] != null
+        team2Score: json['team2Score'] != null
             ? Team1Score.fromJson(json['team2Score'])
-            : null;
+            : null);
+  }
 }
 
-@HiveType(typeId: MatchesHiveTypes.team1Score)
-class Team1Score {
-  @HiveField(Team1ScoreFields.inngs1)
-  final Inngs1? inngs1;
+class Team1Score extends Team1ScoreEntity {
+  // final Inngs1? inngs1;
 
-  Team1Score({this.inngs1});
+  const Team1Score({required Inngs1? inngs1}) : super(inngs1: inngs1);
 
-  Team1Score.fromJson(DataMap json)
-      : inngs1 =
-            json['inngs1'] != null ? Inngs1.fromJson(json['inngs1']) : null;
+  factory Team1Score.fromJson(DataMap json) {
+    return Team1Score(
+        inngs1:
+            json['inngs1'] != null ? Inngs1.fromJson(json['inngs1']) : null);
+  }
 }
 
-@HiveType(typeId: MatchesHiveTypes.inngs1)
-class Inngs1 {
-  @HiveField(Inngs1Fields.inningsId)
-  final int? inningsId;
-  @HiveField(Inngs1Fields.runs)
-  final int? runs;
-  @HiveField(Inngs1Fields.wickets)
-  final int? wickets;
-  @HiveField(Inngs1Fields.overs)
-  final double? overs;
+class Inngs1 extends Inngs1Entity {
+  // final int? inningsId;
+  // final int? runs;
+  // final int? wickets;
+  // final double? overs;
 
-  Inngs1({this.inningsId, this.runs, this.wickets, this.overs});
+  const Inngs1(
+      {required int? inningsId,
+      required int? runs,
+      required int? wickets,
+      required int? overs});
 
-  Inngs1.fromJson(DataMap json)
-      : inningsId = json['inningsId'] ?? 0,
-        runs = json['runs'] ?? 0,
-        wickets = json['wickets'] ?? 0,
-        overs = json['overs'] ?? 0.0;
+  factory Inngs1.fromJson(DataMap json) {
+    return Inngs1(
+        inningsId: json['inningsId'] ?? 0,
+        runs: json['runs'] ?? 0,
+        wickets: json['wickets'] ?? 0,
+        overs: json['overs'] ?? 0.0);
+  }
 }
 
-@HiveType(typeId: MatchesHiveTypes.adDetail)
-class AdDetail {
-  @HiveField(AdDetailFields.name)
-  final String? name;
-  @HiveField(AdDetailFields.layout)
-  final String? layout;
-  @HiveField(AdDetailFields.position)
-  final int? position;
+class AdDetail extends AdDetailEntity {
+  // final String? name;
+  // final String? layout;
+  // final int? position;
 
-  AdDetail({this.name, this.layout, this.position});
+  const AdDetail(
+      {required String? name, required String? layout, required int? position})
+      : super(name: name, layout: layout, position: position);
 
-  AdDetail.fromJson(DataMap json)
-      : name = json['name'] ?? "",
-        layout = json['layout'] ?? "",
-        position = json['position'] ?? 0;
+  factory AdDetail.fromJson(DataMap json) {
+    return AdDetail(
+        name: json['name'] ?? "",
+        layout: json['layout'] ?? "",
+        position: json['position'] ?? 0);
+  }
 }
 
-@HiveType(typeId: MatchesHiveTypes.filters)
-class Filters extends HiveObject {
-  @HiveField(FiltersFields.matchType)
-  final List<String>? matchType;
+class Filters extends FiltersEntity {
+  const Filters({required List<String> matchType})
+      : super(matchType: matchType);
 
-  Filters({this.matchType});
-
-  Filters.fromJson(DataMap json) : matchType = json['matchType'].cast<String>();
+  factory Filters.fromJson(DataMap json) {
+    return Filters(matchType: json['matchType'].cast<String>());
+  }
 }
 
-@HiveType(typeId: MatchesHiveTypes.appIndex)
-class AppIndex {
-  @HiveField(AppIndexFields.seoTitle)
-  final String? seoTitle;
-  @HiveField(AppIndexFields.webURL)
-  final String? webURL;
+class AppIndex extends AppIndexEntity {
+  const AppIndex({required String? seoTitle, required String? webURL})
+      : super(seoTitle: seoTitle, webURL: webURL);
 
-  AppIndex({this.seoTitle, this.webURL});
-
-  AppIndex.fromJson(DataMap json)
-      : seoTitle = json['seoTitle'] ?? "",
-        webURL = json['webURL'] ?? "";
+  factory AppIndex.fromJson(DataMap json) {
+    return AppIndex(
+        seoTitle: json['seoTitle'] ?? "", webURL: json['webURL'] ?? "");
+  }
 }

@@ -12,8 +12,8 @@ typedef _MatchListData = Future<MatchesListModel> Function();
 
 class MatchesListRepoImpl implements MatchesListRepo {
   MatchesListRepoImpl(
-      {required RemoteDataSourceImpl remoteDataSource,
-      required LocalDataSourceImpl localDataSource})
+       RemoteDataSourceImpl remoteDataSource,
+       LocalDataSourceImpl localDataSource)
       : _remoteDataSource = remoteDataSource,
         _localDataSource = localDataSource;
 
@@ -22,15 +22,12 @@ class MatchesListRepoImpl implements MatchesListRepo {
 
   @override
   ResultFuture<MatchesListModel> matchesList(String email) async {
-    try {
-      final result = await _remoteDataSource.matchesList(email);
-      return Right(result);
-    } on ServerException catch (e) {
-      return Left(ServerFailure(message: e.message, statusCode: e.statusCode));
-    }
+    return await _getMatchesList(() {
+      return _remoteDataSource.matchesList(email);
+    });
   }
 
-  ResultFuture<MatchesListModel> _getTrivia(
+  ResultFuture<MatchesListModel> _getMatchesList(
     _MatchListData matchListData,
   ) async {
     final hasConnected = await InternetConnectionChecker().hasConnection;

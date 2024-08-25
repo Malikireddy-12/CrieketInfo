@@ -1,10 +1,17 @@
-import 'package:cricket_info/core/services/router.dart';
-import 'package:cricket_info/core/utils/appInitialiser.dart';
+import 'package:cricket_info/src/matches/presentation/bloc/matches_list_cubit.dart';
+import 'package:cricket_info/src/matches/presentation/views/recent_matches_screen.dart';
+import 'package:cricket_info/src/matches/presentation/widgets/mobile_matches.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
 
-Future<void> main() async {
+import 'core/services/injection_container.dart' as di;
+import 'core/services/injection_container.dart';
+import 'core/services/router.dart';
+
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await appInitialiser();
+  di.setup();
   runApp(const MyApp());
 }
 
@@ -14,13 +21,17 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<MatchesListCubit>(
+          create: (context) => sl<MatchesListCubit>(),
+        ),
+      ],
+      child: const MaterialApp(
+        title: 'Flutter Demo',
+        // onGenerateRoute: generateRoute,
+        home: Matches(),
       ),
-      onGenerateRoute: generateRoute,
     );
   }
 }

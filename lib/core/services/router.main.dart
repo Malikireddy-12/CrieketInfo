@@ -5,10 +5,10 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case '/':
       return _pageBuilder(
         (context) {
-          return BlocProvider(
-            create: (_) => sl<MatchesListCubit>(),
-            child: const MobileMatches(),
-          );
+            return BlocProvider(
+              create: (_) => MatchesListCubit(context.read<MatchesListUsecases>())..matchesListAPi(),
+              child: const MobileMatches(),
+            );
         },
         settings: settings,
       );
