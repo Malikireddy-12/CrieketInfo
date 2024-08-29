@@ -8,7 +8,6 @@ abstract class MatchesListState extends Equatable {
 
 class MatchesListInitial extends MatchesListState {
   const MatchesListInitial();
-
 }
 
 class MatchesListLoading extends MatchesListState {
@@ -16,9 +15,21 @@ class MatchesListLoading extends MatchesListState {
 }
 
 class MatchesListLoaded extends MatchesListState {
-  const MatchesListLoaded({required this.response});
+  const MatchesListLoaded({
+    this.response = const MatchesList.empty(),
+    this.seriesMatches = const [],
+    this.selectedMatchFilter = 0,
+    this.filters = const FiltersEntity.empty(),
+    this.appIndex = const AppIndexEntity.empty(),
+    this.responseLastUpdated = "",
+  });
 
   final MatchesList response;
+  final int selectedMatchFilter;
+  final List<SeriesMatchesEntity>? seriesMatches;
+  final FiltersEntity filters;
+  final AppIndexEntity appIndex;
+  final String responseLastUpdated;
 }
 
 class MatchesListError extends MatchesListState {

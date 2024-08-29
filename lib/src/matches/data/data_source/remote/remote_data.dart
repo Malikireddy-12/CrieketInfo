@@ -4,18 +4,18 @@ import 'package:cricket_info/src/matches/data/model/matches_list_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 
-abstract class RemoteDataSource {
-  Future<void> matchesList(String email);
+abstract class IRemoteDataSource {
+  Future<MatchesListModel> matchesList(String email);
 }
 
-class RemoteDataSourceImpl implements RemoteDataSource {
+class RemoteDataSourceImpl extends IRemoteDataSource {
   RemoteDataSourceImpl();
-  // RemoteDataSourceImpl({required http.Client client}) : _client = client;
   @override
   Future<MatchesListModel> matchesList(String email) async {
     Map<String, String> headers = {
-      "x-rapidapi-key": "5c59a5e06emsh951c5f48674aeaap1f3580jsna233cd1d13f4",
-      "x-rapidapi-host": "cricbuzz-cricket.p.rapidapi.com"
+      "x-rapidapi-key": "6222025a26msh4e70fded642820ap17cc3ejsn94d9c9cfed51",
+      "x-rapidapi-host": "cricbuzz-cricket.p.rapidapi.com",
+      "Content-Type": "application/json",
     };
     try {
       final response = await  http.get(
@@ -29,6 +29,7 @@ class RemoteDataSourceImpl implements RemoteDataSource {
           statusCode: 'Unknown Error',
         );
       }
+
       return MatchesListModel.fromJson(jsonDecode(response.body));
     } on ServerException {
       rethrow;

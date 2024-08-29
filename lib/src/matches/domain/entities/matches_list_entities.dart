@@ -198,12 +198,13 @@ class MatchScoreEntity extends Equatable {
 
 class Team1ScoreEntity extends Equatable {
   final Inngs1Entity? inngs1;
+  final Inngs1Entity? inngs2;
 
-  const Team1ScoreEntity({this.inngs1});
-  const Team1ScoreEntity.empty() : this(inngs1: const Inngs1Entity.empty());
+  const Team1ScoreEntity({this.inngs1,this.inngs2,});
+  const Team1ScoreEntity.empty() : this(inngs1: const Inngs1Entity.empty(),inngs2:const Inngs1Entity.empty());
 
   @override
-  List<Object?> get props => [inngs1];
+  List<Object?> get props => [inngs1,inngs2];
 }
 
 class Inngs1Entity extends Equatable {

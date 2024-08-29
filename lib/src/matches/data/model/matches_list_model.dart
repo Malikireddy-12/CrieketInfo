@@ -18,18 +18,16 @@ class MatchesListModel extends MatchesList {
             appIndex: appIndex,
             responseLastUpdated: responseLastUpdated);
 
-  factory MatchesListModel.fromJson(DataMap json) {
-    return MatchesListModel(
-      typeMatches: json['typeMatches'] != null
-          ? List<TypeMatches>.from(json['typeMatches']
-              .where((e) => e != null)
-              .map((e) => TypeMatches.fromJson(e)))
-          : [],
-      filters: Filters.fromJson(json['filters']),
-      appIndex: AppIndex.fromJson(json['appIndex']),
-      responseLastUpdated: json['responseLastUpdated'],
-    );
-  }
+  factory MatchesListModel.fromJson(DataMap json) => MatchesListModel(
+        typeMatches: json['typeMatches'] != null
+            ? List<TypeMatches>.from(json['typeMatches']
+                .where((e) => e != null)
+                .map((e) => TypeMatches.fromJson(e)))
+            : [],
+        filters: Filters.fromJson(json['filters']),
+        appIndex: AppIndex.fromJson(json['appIndex']),
+        responseLastUpdated: json['responseLastUpdated'],
+      );
 }
 
 class TypeMatches extends TypeMatchesEntity {
@@ -39,14 +37,12 @@ class TypeMatches extends TypeMatchesEntity {
       {required String? matchType, required List<SeriesMatches>? seriesMatches})
       : super(matchType: matchType, seriesMatches: seriesMatches);
 
-  factory TypeMatches.fromJson(DataMap json) {
-    return TypeMatches(
-        matchType: json['matchType'],
-        seriesMatches: json['seriesMatches'] != null
-            ? List<SeriesMatches>.from(
-                json['seriesMatches'].map((e) => SeriesMatches.fromJson(e)))
-            : []);
-  }
+  factory TypeMatches.fromJson(DataMap json) => TypeMatches(
+      matchType: json['matchType'],
+      seriesMatches: json['seriesMatches'] != null
+          ? List<SeriesMatches>.from(
+              json['seriesMatches'].map((e) => SeriesMatches.fromJson(e)))
+          : []);
 }
 
 class SeriesMatches extends SeriesMatchesEntity {
@@ -57,15 +53,13 @@ class SeriesMatches extends SeriesMatchesEntity {
       {required SeriesAdWrapper? seriesAdWrapper, required AdDetail? adDetail})
       : super(seriesAdWrapper: seriesAdWrapper, adDetail: adDetail);
 
-  factory SeriesMatches.fromJson(DataMap json) {
-    return SeriesMatches(
-        seriesAdWrapper: json['seriesAdWrapper'] != null
-            ? SeriesAdWrapper.fromJson(json['seriesAdWrapper'])
-            : null,
-        adDetail: json['adDetail'] != null
-            ? AdDetail.fromJson(json['adDetail'])
-            : null);
-  }
+  factory SeriesMatches.fromJson(DataMap json) => SeriesMatches(
+      seriesAdWrapper: json['seriesAdWrapper'] != null
+          ? SeriesAdWrapper.fromJson(json['seriesAdWrapper'])
+          : null,
+      adDetail: json['adDetail'] != null
+          ? AdDetail.fromJson(json['adDetail'])
+          : null);
 }
 
 class SeriesAdWrapper extends SeriesAdWrapperEntity {
@@ -79,15 +73,13 @@ class SeriesAdWrapper extends SeriesAdWrapperEntity {
       required List<Matches>? matches})
       : super(seriesId: seriesId, seriesName: seriesName, matches: matches);
 
-  factory SeriesAdWrapper.fromJson(DataMap json) {
-    return SeriesAdWrapper(
-        seriesId: json['seriesId'] ?? 0,
-        seriesName: json['seriesName'] ?? "",
-        matches: json['matches'] != null
-            ? List<Matches>.from(
-                json['matches'].map((e) => Matches.fromJson(e)))
-            : []);
-  }
+  factory SeriesAdWrapper.fromJson(DataMap json) => SeriesAdWrapper(
+      seriesId: json['seriesId'] ?? 0,
+      seriesName: json['seriesName'] ?? "",
+      matches: json['matches'] != null
+          ? List<Matches>.from(
+              json['matches'].map((e) => Matches.fromJson(e as DataMap)))
+          : []);
 }
 
 class Matches extends MatchesEntity {
@@ -98,15 +90,14 @@ class Matches extends MatchesEntity {
       {required MatchInfo? matchInfo, required MatchScore? matchScore})
       : super(matchInfo: matchInfo, matchScore: matchScore);
 
-  factory Matches.fromJson(DataMap json) {
-    return Matches(
+  factory Matches.fromJson(DataMap json) => Matches(
         matchInfo: json['matchInfo'] != null
             ? MatchInfo.fromJson(json['matchInfo'])
             : null,
         matchScore: json['matchScore'] != null
-            ? MatchScore.fromJson(json['matchScore'])
-            : null);
-  }
+            ? MatchScore.fromJson(json['matchScore'] as DataMap)
+            : null,
+      );
 }
 
 class MatchInfo extends MatchInfoEntity {
@@ -165,28 +156,26 @@ class MatchInfo extends MatchInfoEntity {
             isTimeAnnounced: isTimeAnnounced,
             stateTitle: stateTitle);
 
-  factory MatchInfo.fromJson(DataMap json) {
-    return MatchInfo(
-        matchId: json['matchId'] ?? 0,
-        seriesId: json['seriesId'] ?? 0,
-        seriesName: json['seriesName'] ?? '',
-        matchDesc: json['matchDesc'] ?? '',
-        matchFormat: json['matchFormat'] ?? '',
-        startDate: json['startDate'] ?? '',
-        endDate: json['endDate'] ?? '',
-        state: json['state'] ?? '',
-        status: json['status'] ?? '',
-        team1: json['team1'] != null ? Team1.fromJson(json['team1']) : null,
-        team2: json['team2'] != null ? Team1.fromJson(json['team2']) : null,
-        venueInfo: json['venueInfo'] != null
-            ? VenueInfo.fromJson(json['venueInfo'])
-            : null,
-        currBatTeamId: json['currBatTeamId'] ?? '',
-        seriesStartDt: json['seriesStartDt'] ?? '',
-        seriesEndDt: json['seriesEndDt'] ?? '',
-        isTimeAnnounced: json['isTimeAnnounced'] ?? '',
-        stateTitle: json['stateTitle'] ?? '');
-  }
+  factory MatchInfo.fromJson(DataMap json) => MatchInfo(
+      matchId: json['matchId'] ?? 0,
+      seriesId: json['seriesId'] ?? 0,
+      seriesName: json['seriesName'] ?? '',
+      matchDesc: json['matchDesc'] ?? '',
+      matchFormat: json['matchFormat'] ?? '',
+      startDate: json['startDate'] ?? '',
+      endDate: json['endDate'] ?? '',
+      state: json['state'] ?? '',
+      status: json['status'] ?? '',
+      team1: json['team1'] != null ? Team1.fromJson(json['team1']) : null,
+      team2: json['team2'] != null ? Team1.fromJson(json['team2']) : null,
+      venueInfo: json['venueInfo'] != null
+          ? VenueInfo.fromJson(json['venueInfo'])
+          : null,
+      currBatTeamId: json['currBatTeamId'] ?? 0,
+      seriesStartDt: json['seriesStartDt'] ?? '',
+      seriesEndDt: json['seriesEndDt'] ?? '',
+      isTimeAnnounced: json['isTimeAnnounced'] ?? false,
+      stateTitle: json['stateTitle'] ?? '');
 }
 
 class Team1 extends Team1Entity {
@@ -206,13 +195,11 @@ class Team1 extends Team1Entity {
             teamName: teamName,
             imageId: imageId);
 
-  factory Team1.fromJson(DataMap json) {
-    return Team1(
-        teamId: json['teamId'] ?? 0,
-        teamName: json['teamName'] ?? "",
-        teamSName: json['teamSName'] ?? "",
-        imageId: json['imageId'] ?? 0);
-  }
+  factory Team1.fromJson(DataMap json) => Team1(
+      teamId: json['teamId'] ?? 0,
+      teamName: json['teamName'] ?? "",
+      teamSName: json['teamSName'] ?? "",
+      imageId: json['imageId'] ?? 0);
 }
 
 class VenueInfo extends VenueInfoEntity {
@@ -228,14 +215,12 @@ class VenueInfo extends VenueInfoEntity {
       required String? timezone})
       : super(id: id, ground: ground, city: city, timezone: timezone);
 
-  factory VenueInfo.fromJson(DataMap json) {
-    return VenueInfo(
-      id: json['id'] ?? 0,
-      ground: json['ground'] ?? "",
-      city: json['city'] ?? "",
-      timezone: json['timezone'],
-    );
-  }
+  factory VenueInfo.fromJson(DataMap json) => VenueInfo(
+        id: json['id'] ?? 0,
+        ground: json['ground'] ?? "",
+        city: json['city'] ?? "",
+        timezone: json['timezone'],
+      );
 }
 
 class MatchScore extends MatchScoreEntity {
@@ -249,10 +234,10 @@ class MatchScore extends MatchScoreEntity {
   factory MatchScore.fromJson(DataMap json) {
     return MatchScore(
         team1Score: json['team1Score'] != null
-            ? Team1Score.fromJson(json['team1Score'])
+            ? Team1Score.fromJson(json['team1Score'] as DataMap)
             : null,
         team2Score: json['team2Score'] != null
-            ? Team1Score.fromJson(json['team2Score'])
+            ? Team1Score.fromJson(json['team2Score'] as DataMap)
             : null);
   }
 }
@@ -260,12 +245,17 @@ class MatchScore extends MatchScoreEntity {
 class Team1Score extends Team1ScoreEntity {
   // final Inngs1? inngs1;
 
-  const Team1Score({required Inngs1? inngs1}) : super(inngs1: inngs1);
+  const Team1Score({required Inngs1? inngs1, required Inngs1? inngs2})
+      : super(inngs1: inngs1, inngs2: inngs2);
 
   factory Team1Score.fromJson(DataMap json) {
     return Team1Score(
-        inngs1:
-            json['inngs1'] != null ? Inngs1.fromJson(json['inngs1']) : null);
+        inngs1: json['inngs1'] != null
+            ? Inngs1.fromJson(json['inngs1'] as DataMap)
+            : null,
+        inngs2: json['inngs2'] != null
+            ? Inngs1.fromJson(json['inngs2'] as DataMap)
+            : null);
   }
 }
 
@@ -279,7 +269,7 @@ class Inngs1 extends Inngs1Entity {
       {required int? inningsId,
       required int? runs,
       required int? wickets,
-      required int? overs});
+      required double? overs});
 
   factory Inngs1.fromJson(DataMap json) {
     return Inngs1(
@@ -299,29 +289,24 @@ class AdDetail extends AdDetailEntity {
       {required String? name, required String? layout, required int? position})
       : super(name: name, layout: layout, position: position);
 
-  factory AdDetail.fromJson(DataMap json) {
-    return AdDetail(
-        name: json['name'] ?? "",
-        layout: json['layout'] ?? "",
-        position: json['position'] ?? 0);
-  }
+  factory AdDetail.fromJson(DataMap json) => AdDetail(
+      name: json['name'] ?? "",
+      layout: json['layout'] ?? "",
+      position: json['position'] ?? 0);
 }
 
 class Filters extends FiltersEntity {
   const Filters({required List<String> matchType})
       : super(matchType: matchType);
 
-  factory Filters.fromJson(DataMap json) {
-    return Filters(matchType: json['matchType'].cast<String>());
-  }
+  factory Filters.fromJson(DataMap json) =>
+      Filters(matchType: json['matchType'].cast<String>());
 }
 
 class AppIndex extends AppIndexEntity {
   const AppIndex({required String? seoTitle, required String? webURL})
       : super(seoTitle: seoTitle, webURL: webURL);
 
-  factory AppIndex.fromJson(DataMap json) {
-    return AppIndex(
-        seoTitle: json['seoTitle'] ?? "", webURL: json['webURL'] ?? "");
-  }
+  factory AppIndex.fromJson(DataMap json) =>
+      AppIndex(seoTitle: json['seoTitle'] ?? "", webURL: json['webURL'] ?? "");
 }

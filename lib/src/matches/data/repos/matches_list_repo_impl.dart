@@ -36,15 +36,15 @@ class MatchesListRepoImpl implements MatchesListRepo {
         final remoteMatchList = await matchListData();
         _localDataSource.setMatchList(remoteMatchList.toString());
         return Right(remoteMatchList);
-      } on ServerException {
-        return Left(ServerFailure(message: '', statusCode: null));
+      } on ServerException catch(e)  {
+        return Left(ServerFailure(message: e.message, statusCode: e.statusCode));
       }
     } else {
       try {
         final localMatchList = await _localDataSource.getMatchList();
         return Right(localMatchList);
-      } on CacheException {
-        return Left(CacheFailure(message: '', statusCode: null));
+      } on CacheException catch(e) {
+        return Left(CacheFailure(message: e.message, statusCode: e.statusCode));
       }
     }
   }

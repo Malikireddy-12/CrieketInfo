@@ -11,7 +11,7 @@ abstract class LocalDataSource {
   Future<MatchesListModel> getMatchList();
 }
 
-class LocalDataSourceImpl implements LocalDataSource {
+class LocalDataSourceImpl extends LocalDataSource {
   LocalDataSourceImpl();
   // LocalDataSourceImpl({required SharedPreferences prefs}) : _prefs = prefs;
 
